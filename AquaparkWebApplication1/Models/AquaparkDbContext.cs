@@ -38,8 +38,8 @@ public partial class AquaparkDbContext : DbContext
             entity.Property(e => e.HallId)
                 .ValueGeneratedNever()
                 .HasColumnName("HallID");
-            entity.Property(e => e.PoolsMaxDepth).HasColumnType("decimal(5, 1)");
-            entity.Property(e => e.PoolsMinDepth).HasColumnType("decimal(5, 1)");
+            entity.Property(e => e.PoolsMaxDepth).HasColumnType("decimal(2, 1)");
+            entity.Property(e => e.PoolsMinDepth).HasColumnType("decimal(2, 1)");
         });
 
         modelBuilder.Entity<Pool>(entity =>
@@ -53,7 +53,7 @@ public partial class AquaparkDbContext : DbContext
 
             entity.HasOne(d => d.HallNavigation).WithMany(p => p.Pools)
                 .HasForeignKey(d => d.Hall)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Pool_Hall");
         });
 
@@ -81,17 +81,17 @@ public partial class AquaparkDbContext : DbContext
 
             entity.HasOne(d => d.Location).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.LocationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Ticket_Hall");
 
             entity.HasOne(d => d.LocationNavigation).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.LocationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Ticket_Slide");
 
             entity.HasOne(d => d.TicketOwnerNavigation).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.TicketOwner)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Ticket_Visitor");
         });
 

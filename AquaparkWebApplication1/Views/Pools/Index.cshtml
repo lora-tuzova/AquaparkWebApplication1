@@ -1,0 +1,62 @@
+﻿@model IEnumerable<AquaparkWebApplication1.Models.Pool>
+
+@{
+    ViewData["Title"] = "Pools in hall";
+}
+
+<h1>Pools in hall @ViewBag.HallId</h1><br></br>
+<p>
+    @Html.ActionLink("Add a new pool", "Create", new {hallId=@ViewBag.HallId})
+</p>
+<br></br>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PoolId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PoolDepth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PoolMinHeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WaterType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hall)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PoolId)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PoolDepth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PoolMinHeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WaterType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hall)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PoolId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PoolId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PoolId">Delete</a>
+            </td>
+        </tr>
+}
+        <a asp-controller="Home" asp-action="Index">Home page</a>
+        <a asp-controller="Halls" asp-action="Index">Back to halls</a>
+    </tbody>
+</table>

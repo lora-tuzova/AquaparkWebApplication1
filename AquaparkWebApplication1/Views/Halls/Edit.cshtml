@@ -1,0 +1,44 @@
+﻿@model AquaparkWebApplication1.Models.Hall
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Hall</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="HallId" />
+            <div class="form-group">
+                <label asp-for="PoolsMaxDepth" class="control-label"></label>
+                <input type="number" step="any" asp-for="PoolsMaxDepth" class="form-control" />
+                <span asp-validation-for="PoolsMaxDepth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoolsMinDepth" class="control-label"></label>
+                <input type="number" step="any" asp-for="PoolsMinDepth" class="form-control" />
+                <span asp-validation-for="PoolsMinDepth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HallMaxPeople" class="control-label"></label>
+                <input asp-for="HallMaxPeople" class="form-control" />
+                <span asp-validation-for="HallMaxPeople" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

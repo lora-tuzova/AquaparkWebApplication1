@@ -1,0 +1,77 @@
+﻿@model IEnumerable<AquaparkWebApplication1.Models.Slide>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SlideId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SlideName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SlideHighestPoint)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SlideMinHeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SlideMaxHeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SlideMaxWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SlideMaxPeople)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SlideMinAge)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlideId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlideName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlideHighestPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlideMinHeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlideMaxHeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlideMaxWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlideMaxPeople)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlideMinAge)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SlideId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SlideId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SlideId">Delete</a>
+            </td>
+        </tr>
+}
+        <a asp-controller="Home" asp-action="Index">Home page</a>
+    </tbody>
+</table>

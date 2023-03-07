@@ -1,0 +1,54 @@
+﻿@model IEnumerable<AquaparkWebApplication1.Models.Hall>
+
+@{
+    ViewData["Title"] = "Холи із басейнами";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HallId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PoolsMaxDepth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PoolsMinDepth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HallMaxPeople)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HallId)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PoolsMaxDepth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PoolsMinDepth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HallMaxPeople)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.HallId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.HallId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.HallId">Delete</a>
+            </td>
+        </tr>
+}
+        <a asp-controller="Home" asp-action="Index">Home page</a>
+    </tbody>
+</table>

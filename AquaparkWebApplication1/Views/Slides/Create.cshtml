@@ -1,0 +1,68 @@
+﻿@model AquaparkWebApplication1.Models.Slide
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Slide</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SlideId" class="control-label"></label>
+                <input asp-for="SlideId" class="form-control" />
+                <span asp-validation-for="SlideId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SlideMinHeight" class="control-label"></label>
+                <input asp-for="SlideMinHeight" class="form-control" />
+                <span asp-validation-for="SlideMinHeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SlideMaxHeight" class="control-label"></label>
+                <input asp-for="SlideMaxHeight" class="form-control" />
+                <span asp-validation-for="SlideMaxHeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SlideMaxWeight" class="control-label"></label>
+                <input asp-for="SlideMaxWeight" class="form-control" />
+                <span asp-validation-for="SlideMaxWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SlideMaxPeople" class="control-label"></label>
+                <input asp-for="SlideMaxPeople" class="form-control" />
+                <span asp-validation-for="SlideMaxPeople" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SlideMinAge" class="control-label"></label>
+                <input asp-for="SlideMinAge" class="form-control" />
+                <span asp-validation-for="SlideMinAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SlideHighestPoint" class="control-label"></label>
+                <input asp-for="SlideHighestPoint" class="form-control" />
+                <span asp-validation-for="SlideHighestPoint" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SlideName" class="control-label"></label>
+                <input asp-for="SlideName" class="form-control" />
+                <span asp-validation-for="SlideName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
