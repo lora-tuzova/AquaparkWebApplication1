@@ -148,7 +148,7 @@ namespace AquaparkWebApplication1.Controllers
             if (hall != null)
             {
                 var relatedPools = await _context.Pools.Where(p => p.Hall == id).ToListAsync();
-                var relatedTickets = await _context.Tickets.Where(t => t.LocationId == id).ToListAsync();
+                var relatedTickets = await _context.Tickets.Where(t => t.LocationHall == id).ToListAsync();
                 byte pId;
                 int tId;
                 Pool pool;

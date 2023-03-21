@@ -147,7 +147,7 @@ namespace AquaparkWebApplication1.Controllers
             var slide = await _context.Slides.FindAsync(id);
             if (slide != null)
             {
-                var relatedTickets = await _context.Tickets.Where(t => t.LocationId == id).ToListAsync();
+                var relatedTickets = await _context.Tickets.Where(t => t.LocationSlide == id).ToListAsync();
                 int tId;
                 Ticket ticket;
                 while (relatedTickets.Any())

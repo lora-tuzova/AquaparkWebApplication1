@@ -49,9 +49,6 @@ namespace AquaparkWebApplication1.Controllers
         // GET: Pools/Create
         public IActionResult Create(byte hallId)
         {
-            //ViewBag.Hall = hallId;
-            //ViewData["Hall"] = new SelectList(_context.Halls, "HallId", "HallId");
-            //return View();
             ViewBag.HallId = hallId;
             return View();
         }
@@ -63,13 +60,26 @@ namespace AquaparkWebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PoolId,PoolDepth,PoolMinHeight,WaterType,Hall")] Pool pool)
         {
-            if (ModelState.IsValid)
+            //pool.HallNavigation = _context.Halls.FirstOrDefault(h => h.HallId == pool.Hall);
+            ModelState.ClearValidationState(nameof(Pool));
+            if (!TryValidateModel(pool, nameof(Pool)))
+            { }
+                if (ModelState.IsValid)
             {
                 _context.Add(pool);
+                //pool.HallNavigation.Pools.Add(pool);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Halls");
             }
-            ViewData["Hall"] = new SelectList(_context.Halls, "HallId", "HallId", pool.Hall);
+            else
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        //Error details listed in var error
+                    }
+                }
+            //ViewData["Hall"] = new SelectList(_context.Halls, "HallId", "HallId", pool.Hall);
             return View(pool);
             //return RedirectToAction("Index", "Pools", new { id = hallId });
         }

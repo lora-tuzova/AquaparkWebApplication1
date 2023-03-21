@@ -5,22 +5,22 @@ using System.ComponentModel.DataAnnotations;
 namespace AquaparkWebApplication1.Models;
 
 
-[ValidLocationType]
+//[ValidLocationType]
 public partial class Ticket
 {
     [Display(Name = "Ід. номер")]
     public int TicketId { get; set; }
 
     [Display(Name = "Тип - хол")]
-    [Range(0, 1, ErrorMessage = "Неприпустиме значення")]
+    //[Range(0, 1, ErrorMessage = "Неприпустиме значення")]
     public byte? LocationHall { get; set; }
 
     [Display(Name = "Тип - гірка")]
-    [Range(0, 1, ErrorMessage = "Неприпустиме значення")]
+    //[Range(0, 1, ErrorMessage = "Неприпустиме значення")]
     public byte? LocationSlide { get; set; }
 
-    [Display(Name = "Номер локації")]
-    public byte? LocationId { get; set; }
+    [Display(Name = "Type локації")]
+    public string LocationType { get; set; }
 
     [Display(Name = "Номер власника")]
     public int? TicketOwner { get; set; }
@@ -39,7 +39,7 @@ public partial class Ticket
 
     public virtual Visitor TicketOwnerNavigation { get; set; } = null!;
 }
-public class ValidLocationTypeAttribute : ValidationAttribute
+/*public class ValidLocationTypeAttribute : ValidationAttribute
 {
     public ValidLocationTypeAttribute()
     {
@@ -50,4 +50,4 @@ public class ValidLocationTypeAttribute : ValidationAttribute
         Ticket? t = value as Ticket;
         return t != null && t.LocationHall != t.LocationSlide;
     }
-}
+}*/

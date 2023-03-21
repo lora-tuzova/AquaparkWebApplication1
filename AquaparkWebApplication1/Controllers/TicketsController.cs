@@ -53,7 +53,8 @@ namespace AquaparkWebApplication1.Controllers
         {
             //SelectList locations = new SelectList(_context.Halls, "HallId", "HallId");
             //locations.Concat(new SelectList(_context.Slides, "SlideId", "SlideId"));
-            ViewData["LocationId"] = new SelectList(_context.Halls, "HallId", "HallId");
+            List<string> types = new List<string>{ "slide", "hall" };
+            ViewData["LocationType"] = new SelectList(types);
             //ViewData["LocationId"] = new SelectList(_context.Slides, "SlideId", "SlideId");
             //ViewData["LocationId"] = locations;
             ViewData["TicketOwner"] = new SelectList(_context.Visitors, "VisitorId", "VisitorId");
@@ -65,13 +66,23 @@ namespace AquaparkWebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TicketId,LocationHall,LocationSlide,LocationId,TicketOwner,Price")] Ticket ticket)
+        public async Task<IActionResult> Create(string type, byte id, [Bind("TicketId,LocationHall,LocationSlide,TicketOwner,Price")] Ticket ticket)
         {
             ticket.TicketStatus = 1;
+            if (type == "slide")
+            {
+                ticket.LocationHall = null;
+                ticket.LocationSlide = id;
+            }
+            else if (type == "slide")
+            {
+                ticket.LocationHall = id;
+                ticket.LocationSlide = null;
+            }
             //if (ticket.LocationHall == 1) ViewData["LocationId"] = new SelectList(_context.Halls, "HallId", "HallId", ticket.LocationId);
             //else if (ticket.LocationSlide == 1) ViewData["LocationId"] = new SelectList(_context.Slides, "SlideId", "SlideId", ticket.LocationId);
             //ViewData["TicketOwner"] = new SelectList(_context.Visitors, "VisitorId", "VisitorId", ticket.TicketOwner);
-            
+
             if (ModelState.IsValid)
             {
                 _context.Add(ticket);
@@ -95,8 +106,8 @@ namespace AquaparkWebApplication1.Controllers
             {
                 return NotFound();
             }
-            ViewData["LocationId"] = new SelectList(_context.Halls, "HallId", "HallId", ticket.LocationId);
-            ViewData["LocationId"] = new SelectList(_context.Slides, "SlideId", "SlideId", ticket.LocationId);
+            ViewData["LocationHall"] = new SelectList(_context.Halls, "HallId", "HallId", ticket.LocationHall);
+            ViewData["LocationSlide"] = new SelectList(_context.Slides, "SlideId", "SlideId", ticket.LocationSlide);
             ViewData["TicketOwner"] = new SelectList(_context.Visitors, "VisitorId", "VisitorId", ticket.TicketOwner);
             return View(ticket);
         }
@@ -106,8 +117,9 @@ namespace AquaparkWebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TicketId,LocationHall,LocationSlide,LocationId,TicketOwner,TicketStatus,Price")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, [Bind("TicketId,LocationHall,LocationSlide,TicketOwner,TicketStatus,Price")] Ticket ticket)
         {
+            //LocationType must be managed!!
             if (id != ticket.TicketId)
             {
                 return NotFound();
@@ -133,8 +145,8 @@ namespace AquaparkWebApplication1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LocationId"] = new SelectList(_context.Halls, "HallId", "HallId", ticket.LocationId);
-            ViewData["LocationId"] = new SelectList(_context.Slides, "SlideId", "SlideId", ticket.LocationId);
+            ViewData["LocationHall"] = new SelectList(_context.Halls, "HallId", "HallId", ticket.LocationHall);
+            ViewData["LocationSlide"] = new SelectList(_context.Slides, "SlideId", "SlideId", ticket.LocationSlide);
             ViewData["TicketOwner"] = new SelectList(_context.Visitors, "VisitorId", "VisitorId", ticket.TicketOwner);
             return View(ticket);
         }

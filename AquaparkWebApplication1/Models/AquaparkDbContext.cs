@@ -76,16 +76,16 @@ public partial class AquaparkDbContext : DbContext
             entity.Property(e => e.TicketId)
                 .ValueGeneratedNever()
                 .HasColumnName("TicketID");
-            entity.Property(e => e.LocationId).HasColumnName("LocationID");
+            entity.Property(e => e.LocationType).HasColumnName("LocationType");
             entity.Property(e => e.Price).HasColumnType("smallmoney");
 
             entity.HasOne(d => d.Location).WithMany(p => p.Tickets)
-                .HasForeignKey(d => d.LocationId)
+                .HasForeignKey(d => d.LocationHall)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Ticket_Hall");
 
             entity.HasOne(d => d.LocationNavigation).WithMany(p => p.Tickets)
-                .HasForeignKey(d => d.LocationId)
+                .HasForeignKey(d => d.LocationSlide)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Ticket_Slide");
 

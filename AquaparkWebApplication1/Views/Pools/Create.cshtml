@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="PoolDepth" class="control-label"></label>
-                <input asp-for="PoolDepth" class="form-control" />
+                <input type="number" step="any" asp-for="PoolDepth" class="form-control" />
                 <span asp-validation-for="PoolDepth" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -32,12 +32,12 @@
                 <input asp-for="WaterType" class="form-control" />
                 <span asp-validation-for="WaterType" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Hall" class="control-label"></label>
                 <input asp-for="Hall" class ="form-control" />
-            </div>
+            </div>*@
 
-            @*<input type="hidden" value="@ViewBag.HallId" asp-for="Hall" />*@
+            <input type="hidden" value="@ViewBag.HallId" asp-for="Hall" class="form-control" />
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
