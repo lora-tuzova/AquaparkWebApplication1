@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AquaparkWebApplication1.Models;
+using System.Net.Sockets;
 
 namespace AquaparkWebApplication1.Controllers
 {
@@ -47,6 +48,9 @@ namespace AquaparkWebApplication1.Controllers
         // GET: Halls/Create
         public IActionResult Create()
         {
+            List<Hall> list = _context.Halls.ToList();
+            int c = list.Count();
+            ViewBag.HallId = list.ElementAt(c - 1).HallId+1;
             return View();
         }
 
@@ -57,6 +61,7 @@ namespace AquaparkWebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("HallId,PoolsMaxDepth,PoolsMinDepth,HallMaxPeople")] Hall hall)
         {
+            
             if (ModelState.IsValid)
             {
                 _context.Add(hall);
@@ -79,6 +84,7 @@ namespace AquaparkWebApplication1.Controllers
             {
                 return NotFound();
             }
+            ViewBag.ErrorString = "";
             return View(hall);
         }
 
@@ -98,7 +104,22 @@ namespace AquaparkWebApplication1.Controllers
             {
                 try
                 {
+                    int count = _context.Tickets.Where(t => t.TicketStatus == 1 && t.LocationHall.Equals(hall.HallId)).Count();
+                    if (count > hall.HallMaxPeople)
+                    {
+                        ViewBag.ErrorString += "Неприпустиме таке зменшення місткості холу за наявної кількості відвідувачів. ";
+                        return View(hall);
+                    }
                     _context.Update(hall);
+                    var pools = _context.Pools.Where(p=>p.Hall==hall.HallId).ToList();
+                    foreach (var pool in pools)
+                    {
+                        if (pool.PoolDepth>hall.PoolsMaxDepth)
+                            pool.PoolDepth=hall.PoolsMaxDepth;
+                        else if (pool.PoolDepth<hall.PoolsMinDepth)
+                            pool.PoolDepth = hall.PoolsMinDepth;
+                    }
+                    
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

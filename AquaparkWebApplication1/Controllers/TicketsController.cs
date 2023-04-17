@@ -51,13 +51,16 @@ namespace AquaparkWebApplication1.Controllers
         // GET: Tickets/Create
         public IActionResult Create()
         {
-            //SelectList locations = new SelectList(_context.Halls, "HallId", "HallId");
-            //locations.Concat(new SelectList(_context.Slides, "SlideId", "SlideId"));
+            List<Ticket> list = _context.Tickets.ToList();
+            int c = list.Count();
+            ViewBag.TicketId = list.ElementAt(c - 1).TicketId + 1;
             List<string> types = new List<string>{ "slide", "hall" };
             ViewData["LocationType"] = new SelectList(types);
-            //ViewData["LocationId"] = new SelectList(_context.Slides, "SlideId", "SlideId");
-            //ViewData["LocationId"] = locations;
+            ViewData["LocationSlide"] = new SelectList(_context.Slides, "SlideId", "SlideId");
+            ViewData["LocationHall"] = new SelectList(_context.Halls, "HallId", "HallId");
             ViewData["TicketOwner"] = new SelectList(_context.Visitors, "VisitorId", "VisitorId");
+            string errors = "";
+            ViewBag.ErrorString = errors;
             return View();
         }
 
@@ -66,22 +69,89 @@ namespace AquaparkWebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string type, byte id, [Bind("TicketId,LocationHall,LocationSlide,TicketOwner,Price")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("TicketId,LocationHall,LocationSlide,LocationType,TicketOwner,Price")] Ticket ticket)
         {
+           
             ticket.TicketStatus = 1;
-            if (type == "slide")
+            if (ticket.LocationType == "slide")
             {
                 ticket.LocationHall = null;
-                ticket.LocationSlide = id;
             }
-            else if (type == "slide")
+            else if (ticket.LocationType == "hall")
             {
-                ticket.LocationHall = id;
                 ticket.LocationSlide = null;
             }
-            //if (ticket.LocationHall == 1) ViewData["LocationId"] = new SelectList(_context.Halls, "HallId", "HallId", ticket.LocationId);
-            //else if (ticket.LocationSlide == 1) ViewData["LocationId"] = new SelectList(_context.Slides, "SlideId", "SlideId", ticket.LocationId);
-            //ViewData["TicketOwner"] = new SelectList(_context.Visitors, "VisitorId", "VisitorId", ticket.TicketOwner);
+
+            byte errCheck = 0;
+            
+            if (ticket.LocationType == "hall")
+            {
+                int sum = _context.Tickets.Where(p => p.LocationHall == ticket.LocationHall && p.TicketStatus == 1).Count();
+                Hall hall = _context.Halls.Where(h=>h.HallId==ticket.LocationHall).FirstOrDefault();
+                if (sum >= hall.HallMaxPeople)
+                {
+                    ViewBag.ErrorString += " Забагато людей у обраній локації.";
+                    errCheck++;
+                }
+                Visitor owner = _context.Visitors.Where(v=>v.VisitorId==ticket.TicketOwner).FirstOrDefault();
+                var limits = from p in _context.Pools where p.Hall==ticket.LocationHall select p.PoolMinHeight;
+                foreach (byte l in limits)
+                    if (owner.Height < l) {
+                        errCheck++;
+                        ViewBag.ErrorString += " Зріст менший за мінімально дозволений ("+l+").";
+                        break;
+                    }
+            }
+            else
+            {
+                int sum = _context.Tickets.Where(p => p.LocationSlide == ticket.LocationSlide && p.TicketStatus == 1).Count();
+                Slide slide = _context.Slides.Where(s => s.SlideId == ticket.LocationSlide).FirstOrDefault();
+                if (sum >= slide.SlideMaxPeople)
+                {
+                    ViewBag.ErrorString += " Забагато людей у обраній локації.";
+                    errCheck++;
+                }
+                Visitor owner = _context.Visitors.Where(v => v.VisitorId == ticket.TicketOwner).FirstOrDefault();
+                Slide sl = _context.Slides.Where(s=>s.SlideId == ticket.LocationSlide).FirstOrDefault();
+                if (owner.Height > sl.SlideMaxHeight)
+                {
+                    ViewBag.ErrorString += " Зріст більший за максимально дозволений ("+sl.SlideMaxHeight+").";
+                    errCheck++;
+                }
+
+                if (owner.Height < sl.SlideMinHeight)
+                {
+                    ViewBag.ErrorString += " Зріст менший за мінімально дозволений ("+sl.SlideMinHeight+").";
+                    errCheck++;
+                }
+
+                if (owner.Weight > sl.SlideMaxWeight)
+                {
+                    ViewBag.ErrorString += " Вага більша за максимально дозволену ("+sl.SlideMaxWeight+").";
+                    errCheck++;
+                }
+
+                DateTime n = DateTime.Now; // To avoid a race condition around midnight
+                int age = n.Year - owner.BirthDate.Year;
+
+                if (n.Month < owner.BirthDate.Month || (n.Month == owner.BirthDate.Month && n.Day < owner.BirthDate.Day))
+                    age--;
+                if (age < sl.SlideMinAge)
+                {
+                    ViewBag.ErrorString += " Вік менший за мінімально дозволений ("+sl.SlideMinAge+").";
+                    errCheck++;
+                }
+            }
+            
+            if (errCheck > 0)
+            {
+                List<string> types = new List<string> { "slide", "hall" };
+                ViewData["LocationType"] = new SelectList(types);
+                ViewData["LocationSlide"] = new SelectList(_context.Slides, "SlideId", "SlideId");
+                ViewData["LocationHall"] = new SelectList(_context.Halls, "HallId", "HallId");
+                ViewData["TicketOwner"] = new SelectList(_context.Visitors, "VisitorId", "VisitorId");
+                return View(ticket);
+            }
 
             if (ModelState.IsValid)
             {
@@ -106,9 +176,14 @@ namespace AquaparkWebApplication1.Controllers
             {
                 return NotFound();
             }
-            ViewData["LocationHall"] = new SelectList(_context.Halls, "HallId", "HallId", ticket.LocationHall);
-            ViewData["LocationSlide"] = new SelectList(_context.Slides, "SlideId", "SlideId", ticket.LocationSlide);
-            ViewData["TicketOwner"] = new SelectList(_context.Visitors, "VisitorId", "VisitorId", ticket.TicketOwner);
+            List<string> types = new List<string> { "slide", "hall" };
+            ViewBag.TicketId = ticket.TicketId;
+            ViewBag.LocationType = ticket.LocationType;
+            ViewBag.LocationHall = ticket.LocationHall;
+            ViewBag.LocationSlide = ticket.LocationSlide;
+            ViewBag.TicketOwner = ticket.TicketOwner;
+            List<byte> status = new List<byte> { 0, 1 };
+            ViewData["TicketStatus"] = new SelectList(status);
             return View(ticket);
         }
 
@@ -117,9 +192,16 @@ namespace AquaparkWebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TicketId,LocationHall,LocationSlide,TicketOwner,TicketStatus,Price")] Ticket ticket)
+        public async Task<IActionResult> Edit(int id, [Bind("TicketId,LocationHall,LocationSlide, LocationType,TicketOwner,TicketStatus,Price")] Ticket ticket)
         {
-            //LocationType must be managed!!
+            if (ticket.LocationType == "slide")
+            {
+                ticket.LocationHall = null;
+            }
+            else if (ticket.LocationType == "hall")
+            {
+                ticket.LocationSlide = null;
+            }
             if (id != ticket.TicketId)
             {
                 return NotFound();
@@ -145,9 +227,7 @@ namespace AquaparkWebApplication1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LocationHall"] = new SelectList(_context.Halls, "HallId", "HallId", ticket.LocationHall);
-            ViewData["LocationSlide"] = new SelectList(_context.Slides, "SlideId", "SlideId", ticket.LocationSlide);
-            ViewData["TicketOwner"] = new SelectList(_context.Visitors, "VisitorId", "VisitorId", ticket.TicketOwner);
+            
             return View(ticket);
         }
 

@@ -49,6 +49,9 @@ namespace AquaparkWebApplication1.Controllers
         // GET: Visitors/Create
         public IActionResult Create()
         {
+            List<Visitor> list = _context.Visitors.ToList();
+            int c = list.Count();
+            ViewBag.VisitorId = list.ElementAt(c - 1).VisitorId + 1;
             return View();
         }
 
@@ -78,6 +81,7 @@ namespace AquaparkWebApplication1.Controllers
             }
 
             var visitor = await _context.Visitors.FindAsync(id);
+            ViewBag.ErrorString = "";
             if (visitor == null)
             {
                 return NotFound();
@@ -101,18 +105,22 @@ namespace AquaparkWebApplication1.Controllers
             {
                 try
                 {
+                    var tickets = _context.Tickets.Where(t => t.TicketStatus == 1).ToList();
+                    if (tickets.Any())
+                    {
+                        ViewBag.ErrorString += "Заборонено редагувати дані відвідувача під час його перебування в аквапарку. ";
+                        return View(visitor);
+                    }
                     _context.Update(visitor);
+                    if (visitor.Status == 0)
+                    {
                         var relatedTickets = await _context.Tickets.Where(t => t.TicketOwner == id & t.TicketStatus == 1).ToListAsync();
-                        Ticket ticket;
-                        int tId;
-                        while (relatedTickets.Any())
+                        foreach (var t in relatedTickets)
                         {
-                            tId = relatedTickets.FirstOrDefault().TicketId;
-                            ticket = _context.Tickets.FirstOrDefault(t => t.TicketId == tId);
-                        if (ticket.TicketStatus != visitor.Status)
-                        { _context.Tickets.FirstOrDefault(_ => _.TicketId == tId).TicketStatus = visitor.Status; }
-                             relatedTickets.Remove(ticket);
+                            t.TicketStatus = 0;
+                            _context.Update(t);
                         }
+                    }
                  
                     await _context.SaveChangesAsync();
                 }

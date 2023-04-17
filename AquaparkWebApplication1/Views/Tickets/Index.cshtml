@@ -30,12 +30,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.TicketStatus)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LocationNavigation)
-            </th>
+            
             
             <th></th>
         </tr>
@@ -61,12 +56,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TicketStatus)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Location.HallId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LocationNavigation.SlideId)
-            </td>
+            </td>*@
             
             <td>
                 <a asp-action="Edit" asp-route-id="@item.TicketId">Edit</a> |

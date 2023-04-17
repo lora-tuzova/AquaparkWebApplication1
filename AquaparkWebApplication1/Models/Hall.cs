@@ -8,7 +8,7 @@ namespace AquaparkWebApplication1.Models;
 public partial class Hall
 {
     [Display(Name = "Ід. номер")]
-    [Range(200, 256, ErrorMessage = "Діапазон припустимих номерів від 200 до 256")]
+    //[Range(200, 256, ErrorMessage = "Діапазон припустимих номерів від 200 до 256")]
     public byte HallId { get; set; }
 
     [Display(Name = "Макс. глибина басейнів")]
@@ -34,9 +34,10 @@ public class ValidDepthAttribute : ValidationAttribute
     {
         ErrorMessage = "Мінімальна глибина басейну не може перевищувати максимальну глибину";
     }
-    public override bool IsValid(object? value)
+    public override bool IsValid(object value)
     {
-        Hall? t = value as Hall;
-        return t != null && t.PoolsMinDepth <= t.PoolsMaxDepth;
+        if (value == null) { return true; }
+        Hall hall = value as Hall;
+        return hall != null && hall.PoolsMinDepth <= hall.PoolsMaxDepth;
     }
 }

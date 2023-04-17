@@ -12,11 +12,12 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <input type="hidden" value="@ViewBag.HallId" asp-for="HallId" />
+            @*<div class="form-group">
                 <label asp-for="HallId" class="control-label"></label>
                 <input asp-for="HallId" class="form-control" />
                 <span asp-validation-for="HallId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="PoolsMaxDepth" class="control-label"></label>
                 <input type="number" step="any" asp-for="PoolsMaxDepth" class="form-control" />

@@ -47,6 +47,11 @@ namespace AquaparkWebApplication1.Controllers
         // GET: Slides/Create
         public IActionResult Create()
         {
+            List<Slide> list = _context.Slides.ToList();
+            int c = list.Count();
+            if (c>0)
+                ViewBag.SlideId = list.ElementAt(c - 1).SlideId + 1;
+            else ViewBag.SlideId = 0;
             return View();
         }
 
@@ -75,6 +80,7 @@ namespace AquaparkWebApplication1.Controllers
             }
 
             var slide = await _context.Slides.FindAsync(id);
+            ViewBag.ErrorString = "";
             if (slide == null)
             {
                 return NotFound();
@@ -98,6 +104,12 @@ namespace AquaparkWebApplication1.Controllers
             {
                 try
                 {
+                    var visitors = _context.Tickets.Where(t => t.TicketStatus == 1 && t.LocationSlide == slide.SlideId).ToList();
+                    if (visitors.Any())
+                    {
+                        ViewBag.ErrorString += "Заборонено редагувати дані гірки за наявності відвідувачів. ";
+                        return View(slide);
+                    }
                     _context.Update(slide);
                     await _context.SaveChangesAsync();
                 }

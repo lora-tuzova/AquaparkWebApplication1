@@ -19,7 +19,7 @@ public partial class Slide
     public byte? SlideMaxHeight { get; set; }
 
     [Display(Name = "Макс. вага")]
-    [Range(0, 256, ErrorMessage = "Вага від 0 до 256кг")]
+    [Range(1, 256, ErrorMessage = "Вага від 1 до 256кг")]
     public byte? SlideMaxWeight { get; set; }
 
     [Display(Name = "Макс. кількість відвідувачів")]

@@ -23,7 +23,7 @@ namespace AquaparkWebApplication1.Controllers
         {
             if (id == null) return RedirectToAction("Halls", "Index");
             ViewBag.HallId = id;
-            var PoolsByHall = _context.Pools.Where(p=>p.Hall == id).Include(p=>p.HallNavigation);
+            var PoolsByHall = _context.Pools.Where(p => p.Hall == id).Include(p => p.HallNavigation);
             return View(await PoolsByHall.ToListAsync());
         }
 
@@ -50,6 +50,13 @@ namespace AquaparkWebApplication1.Controllers
         public IActionResult Create(byte hallId)
         {
             ViewBag.HallId = hallId;
+            List<Pool> list = _context.Pools.ToList();
+            int c = list.Count();
+            if (c > 0)
+                ViewBag.PoolId = list.ElementAt(c - 1).PoolId + 1;
+            else
+                ViewBag.PoolId = 1;
+            ViewBag.ErrorString = "";
             return View();
         }
 
@@ -60,28 +67,28 @@ namespace AquaparkWebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PoolId,PoolDepth,PoolMinHeight,WaterType,Hall")] Pool pool)
         {
-            //pool.HallNavigation = _context.Halls.FirstOrDefault(h => h.HallId == pool.Hall);
-            ModelState.ClearValidationState(nameof(Pool));
-            if (!TryValidateModel(pool, nameof(Pool)))
-            { }
-                if (ModelState.IsValid)
+
+            Hall hall = _context.Halls.Where(h => h.HallId == pool.Hall).FirstOrDefault();
+            if (hall == null || pool.PoolDepth < hall.PoolsMinDepth || pool.PoolDepth > hall.PoolsMaxDepth)
+            {
+                ViewBag.ErrorString += "Глибина басейна виходить за обмеження глибини цього хола ("+hall.PoolsMaxDepth+"-"+hall.PoolsMinDepth+").";
+                return View(pool);
+            }
+            if (ModelState.IsValid)
             {
                 _context.Add(pool);
-                //pool.HallNavigation.Pools.Add(pool);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Halls");
             }
-            else
-                foreach (var modelState in ViewData.ModelState.Values)
-                {
-                    foreach (var error in modelState.Errors)
-                    {
-                        //Error details listed in var error
-                    }
-                }
-            //ViewData["Hall"] = new SelectList(_context.Halls, "HallId", "HallId", pool.Hall);
+            
+                //foreach (var modelState in ViewData.ModelState.Values)
+                //{
+                //    foreach (var error in modelState.Errors)
+                //    {
+                //        //Error details listed in var error
+                //    }
+                //}
             return View(pool);
-            //return RedirectToAction("Index", "Pools", new { id = hallId });
         }
 
         // GET: Pools/Edit/5
@@ -97,7 +104,10 @@ namespace AquaparkWebApplication1.Controllers
             {
                 return NotFound();
             }
-            ViewData["Hall"] = new SelectList(_context.Halls, "HallId", "HallId", pool.Hall);
+            ViewData["Hall"] = pool.Hall;
+            List<byte> type = new List<byte> { 0, 1 };
+            ViewData["WaterType"] = new SelectList(type);
+            ViewBag.ErrorString = "";
             return View(pool);
         }
 
@@ -117,6 +127,14 @@ namespace AquaparkWebApplication1.Controllers
             {
                 try
                 {
+                    var visitors = _context.Tickets.Where(t => t.TicketStatus==1 && t.LocationHall==pool.Hall).ToList();
+                    if (visitors.Any()){
+                        ViewBag.ErrorString += "Заборонено редагувати дані басейна за наявності відвідувачів. ";
+                        ViewData["Hall"] = new SelectList(_context.Halls, "HallId", "HallId", pool.Hall);
+                        List<byte> type = new List<byte>{ 0, 1 };
+                        ViewData["WaterType"] = new SelectList(type);
+                        return View(pool);
+                    }
                     _context.Update(pool);
                     await _context.SaveChangesAsync();
                 }
@@ -131,9 +149,9 @@ namespace AquaparkWebApplication1.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index","Halls");
+                return RedirectToAction("Index", "Halls");
             }
-            ViewData["Hall"] = new SelectList(_context.Halls, "HallId", "HallId", pool.Hall);
+            ViewData["Hall"] = pool.Hall;
             return View(pool);
             //return RedirectToAction("Index", "Halls");
         }
@@ -171,14 +189,14 @@ namespace AquaparkWebApplication1.Controllers
             {
                 _context.Pools.Remove(pool);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Halls");
         }
 
         private bool PoolExists(byte id)
         {
-          return (_context.Pools?.Any(e => e.PoolId == id)).GetValueOrDefault();
+            return (_context.Pools?.Any(e => e.PoolId == id)).GetValueOrDefault();
         }
     }
 }

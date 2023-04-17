@@ -8,24 +8,24 @@
 
 <h4>Ticket</h4>
 <hr />
+<div>@ViewBag.ErrorString</div>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="TicketId" class="control-label"></label>
                 <input asp-for="TicketId" class="form-control" />
                 <span asp-validation-for="TicketId" class="text-danger"></span>
-            </div>
+            </div>*@
+            <input type="hidden" value="@ViewBag.TicketId" asp-for="TicketId" />
             <div class="form-group">
                 <label asp-for="LocationHall" class="control-label"></label>
-                <input asp-for="LocationHall" class="form-control" />
-                <span asp-validation-for="LocationHall" class="text-danger"></span>
+                <select asp-for="LocationHall" class="form-control" asp-items="ViewBag.LocationHall"></select>
             </div>
             <div class="form-group">
                 <label asp-for="LocationSlide" class="control-label"></label>
-                <input asp-for="LocationSlide" class="form-control" />
-                <span asp-validation-for="LocationSlide" class="text-danger"></span>
+                <select asp-for="LocationSlide" class="form-control" asp-items="ViewBag.LocationSlide"></select>
             </div>
             <div class="form-group">
                 <label asp-for="LocationType" class="control-label"></label>
@@ -37,7 +37,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+                <input type="number" step="any" asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">

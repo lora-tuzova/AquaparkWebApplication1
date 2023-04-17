@@ -8,15 +8,12 @@
 
 <h4>Pool</h4>
 <hr />
+<div>@ViewBag.ErrorString</div>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PoolId" class="control-label"></label>
-                <input asp-for="PoolId" class="form-control" />
-                <span asp-validation-for="PoolId" class="text-danger"></span>
-            </div>
+            <input type="hidden" value="@ViewBag.PoolId" asp-for="PoolId" />
             <div class="form-group">
                 <label asp-for="PoolDepth" class="control-label"></label>
                 <input type="number" step="any" asp-for="PoolDepth" class="form-control" />
@@ -37,7 +34,7 @@
                 <input asp-for="Hall" class ="form-control" />
             </div>*@
 
-            <input type="hidden" value="@ViewBag.HallId" asp-for="Hall" class="form-control" />
+            <input type="hidden" value="@ViewBag.HallId" name="Hall" />
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
