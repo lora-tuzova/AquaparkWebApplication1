@@ -7,7 +7,7 @@ namespace AquaparkWebApplication1.Models;
 [ValidDepth]
 public partial class Hall
 {
-    [Display(Name = "Ід. номер")]
+    [Display(Name = "№")]
     //[Range(200, 256, ErrorMessage = "Діапазон припустимих номерів від 200 до 256")]
     public byte HallId { get; set; }
 
@@ -19,7 +19,7 @@ public partial class Hall
     [Range(0.3, 3, ErrorMessage = "Припустима глибина басейнів від 0.3 до 3м")]
     public decimal PoolsMinDepth { get; set; }
 
-    [Display(Name = "Максимальна к-сть відвідувачів")]
+    [Display(Name = "Макс. к-сть відвідувачів")]
     [Range(30, 150, ErrorMessage = "Можливі обмеження від 30 до 150 відвідувачів")]
     public byte HallMaxPeople { get; set; }
 

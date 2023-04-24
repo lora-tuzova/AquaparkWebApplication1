@@ -7,7 +7,7 @@ namespace AquaparkWebApplication1.Models;
 //[ValidDepthInRangeAttribute]
 public partial class Pool
 {
-    [Display(Name = "Ід. номер")]
+    [Display(Name = "№")]
     public byte PoolId { get; set; }
 
     [Display(Name = "Глибина")]

@@ -8,7 +8,7 @@ namespace AquaparkWebApplication1.Models;
 [ValidCapacity] 
 public partial class Ticket
 {
-    [Display(Name = "Ід. номер")]
+    [Display(Name = "№")]
     public int TicketId { get; set; }
 
     [Display(Name = "Номер - хол")]
@@ -17,10 +17,10 @@ public partial class Ticket
     [Display(Name = "Номер - гірка")]
     public byte? LocationSlide { get; set; } = null;
 
-    [Display(Name = "Type локації")]
+    [Display(Name = "Тип локації")]
     public string LocationType { get; set; }
 
-    [Display(Name = "Номер власника")]
+    [Display(Name = "№ власника")]
     public int? TicketOwner { get; set; }
 
     [Display(Name = "Статус використання")]
@@ -30,8 +30,9 @@ public partial class Ticket
     //[Range(10, 500, ErrorMessage = "Припустима вартість квитків від 10 до 500 грн")]
     public decimal Price { get; set; }
 
+    [Display(Name = "Номер хола")]
     public virtual Hall Location { get; set; } = null!;
-
+    [Display(Name = "Номер гірки")]
     public virtual Slide LocationNavigation { get; set; } = null!;
 
     public virtual Visitor TicketOwnerNavigation { get; set; } = null!;

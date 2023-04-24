@@ -6,7 +6,7 @@ namespace AquaparkWebApplication1.Models;
 
 public partial class Slide
 {
-    [Display(Name = "Номер")]
+    [Display(Name = "№")]
     [Range(100,199, ErrorMessage = "Діапазон припустимих номерів: 100-199")]
     public byte SlideId { get; set; }
 
@@ -14,7 +14,7 @@ public partial class Slide
     [Range(100,200, ErrorMessage = "Припустимий зріст від 1 до 2м")]
     public byte? SlideMinHeight { get; set; }
 
-    [Display(Name = "Макс.Зріст")]
+    [Display(Name = "Макс. зріст")]
     [Range(100, 200, ErrorMessage = "Припустимий зріст від 1 до 2м")]
     public byte? SlideMaxHeight { get; set; }
 
@@ -22,11 +22,11 @@ public partial class Slide
     [Range(1, 256, ErrorMessage = "Вага від 1 до 256кг")]
     public byte? SlideMaxWeight { get; set; }
 
-    [Display(Name = "Макс. кількість відвідувачів")]
+    [Display(Name = "Макс. к-сть відвідувачів")]
     [Range(3, 10, ErrorMessage = "Одночасна кількість відвідувачів від 3 до 10")]
     public byte SlideMaxPeople { get; set; }
 
-    [Display(Name = "Мінімальний дозволений вік")]
+    [Display(Name = "Мін. дозволений вік")]
     [Range(3, 18, ErrorMessage = "Вікові обмеження від 3 до 18 років")]
     public byte? SlideMinAge { get; set; }
 

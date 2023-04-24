@@ -13,13 +13,13 @@
             @Html.DisplayNameFor(model => model.LocationHall)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LocationHall)
+            <a asp-controller="Halls" asp-action="Details" asp-route-id="@Model?.LocationHall">@Html.DisplayFor(model => model.LocationHall)</a>
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LocationSlide)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LocationSlide)
+            <a asp-controller="Slides" asp-action="Details" asp-route-id="@Model?.LocationSlide">@Html.DisplayFor(model => model.LocationSlide)</a>
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TicketStatus)
@@ -34,22 +34,10 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
+            @Html.DisplayNameFor(model => model.TicketOwner)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location.HallId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LocationNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LocationNavigation.SlideId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TicketOwnerNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TicketOwnerNavigation.VisitorId)
+            <a asp-controller="Visitors" asp-action="Details" asp-route-id="@Model?.TicketOwner">@Html.DisplayFor(model => model.TicketOwner)</a>
         </dd>
     </dl>
 </div>

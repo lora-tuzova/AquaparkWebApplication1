@@ -11,7 +11,7 @@ public partial class Visitor
     [StringLength(50, MinimumLength = 8, ErrorMessage = "Довжина імені від 8 до 50 символів")]
     public string Name { get; set; } = null!;
 
-    [Display(Name = "Ід. номер")]
+    [Display(Name = "№")]
     public int VisitorId { get; set; }
 
     [Display(Name = "Дата народження")]

@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.TicketOwner)
             </th>
             <th>
+                Owner's name
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
@@ -43,6 +46,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TicketOwner)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketOwnerNavigation.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
