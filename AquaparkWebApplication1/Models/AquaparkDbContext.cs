@@ -81,19 +81,18 @@ public partial class AquaparkDbContext : DbContext
 
             entity.HasOne(d => d.Location).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.LocationHall)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Ticket_Hall")
                 .IsRequired(false);
 
             entity.HasOne(d => d.LocationNavigation).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.LocationSlide)
-                .OnDelete(DeleteBehavior.Cascade)
+                //.OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Ticket_Slide")
                 .IsRequired(false);
 
             entity.HasOne(d => d.TicketOwnerNavigation).WithMany(p => p.Tickets)
                 .HasForeignKey(d => d.TicketOwner)
-                .OnDelete(DeleteBehavior.Cascade)
+                //.OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Ticket_Visitor");
         });
 

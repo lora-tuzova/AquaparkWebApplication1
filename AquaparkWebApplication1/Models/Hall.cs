@@ -23,6 +23,10 @@ public partial class Hall
     [Range(30, 150, ErrorMessage = "Можливі обмеження від 30 до 150 відвідувачів")]
     public byte HallMaxPeople { get; set; }
 
+    [Display(Name = "Ціна")]
+    //[Range(10,500, ErrorMessage = "Припустима вартість квитків від 10 до 500 грн")]
+    public decimal HallPrice { get; set; }
+
     public virtual ICollection<Pool> Pools { get; } = new List<Pool>();
 
     public virtual ICollection<Ticket> Tickets { get; } = new List<Ticket>();

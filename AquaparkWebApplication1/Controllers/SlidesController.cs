@@ -40,8 +40,8 @@ namespace AquaparkWebApplication1.Controllers
             {
                 return NotFound();
             }
-            var owners = RedirectToAction("Tickets", "SlideInfo", slide.SlideId);
-            return View(owners);
+            //var owners = RedirectToAction("Tickets", "SlideInfo", slide.SlideId);
+            return View(slide);
         }
 
         // GET: Slides/Create
@@ -51,7 +51,7 @@ namespace AquaparkWebApplication1.Controllers
             int c = list.Count();
             if (c>0)
                 ViewBag.SlideId = list.ElementAt(c - 1).SlideId + 1;
-            else ViewBag.SlideId = 0;
+            else ViewBag.SlideId = 100;
             return View();
         }
 
@@ -60,7 +60,7 @@ namespace AquaparkWebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SlideId,SlideMinHeight,SlideMaxHeight,SlideMaxWeight,SlideMaxPeople,SlideMinAge,SlideHighestPoint,SlideName")] Slide slide)
+        public async Task<IActionResult> Create([Bind("SlideId,SlideMinHeight,SlideMaxHeight,SlideMaxWeight,SlideMaxPeople,SlideMinAge,SlideHighestPoint,SlideName,SlidePrice")] Slide slide)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace AquaparkWebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(byte id, [Bind("SlideId,SlideMinHeight,SlideMaxHeight,SlideMaxWeight,SlideMaxPeople,SlideMinAge,SlideHighestPoint,SlideName")] Slide slide)
+        public async Task<IActionResult> Edit(byte id, [Bind("SlideId,SlideMinHeight,SlideMaxHeight,SlideMaxWeight,SlideMaxPeople,SlideMinAge,SlideHighestPoint,SlideName,SlidePrice")] Slide slide)
         {
             if (id != slide.SlideId)
             {

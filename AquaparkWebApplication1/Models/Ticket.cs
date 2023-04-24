@@ -27,7 +27,7 @@ public partial class Ticket
     public byte TicketStatus { get; set; }
 
     [Display(Name = "Вартість")]
-    [Range(10,200,ErrorMessage ="Припустима вартість квитків від 10 до 200 грн")]
+    //[Range(10, 500, ErrorMessage = "Припустима вартість квитків від 10 до 500 грн")]
     public decimal Price { get; set; }
 
     public virtual Hall Location { get; set; } = null!;

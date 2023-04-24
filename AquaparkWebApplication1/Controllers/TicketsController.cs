@@ -53,7 +53,9 @@ namespace AquaparkWebApplication1.Controllers
         {
             List<Ticket> list = _context.Tickets.ToList();
             int c = list.Count();
-            ViewBag.TicketId = list.ElementAt(c - 1).TicketId + 1;
+            if (c > 0)
+                ViewBag.TicketId = list.ElementAt(c - 1).TicketId + 1;
+            else ViewBag.TicketId = 1;
             List<string> types = new List<string>{ "slide", "hall" };
             ViewData["LocationType"] = new SelectList(types);
             ViewData["LocationSlide"] = new SelectList(_context.Slides, "SlideId", "SlideId");
@@ -69,17 +71,19 @@ namespace AquaparkWebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TicketId,LocationHall,LocationSlide,LocationType,TicketOwner,Price")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("TicketId,LocationHall,LocationSlide,LocationType,TicketOwner")] Ticket ticket)
         {
            
             ticket.TicketStatus = 1;
             if (ticket.LocationType == "slide")
             {
                 ticket.LocationHall = null;
+                ticket.Price = _context.Slides.FirstOrDefault(s => s.SlideId == ticket.LocationSlide).SlidePrice;
             }
             else if (ticket.LocationType == "hall")
             {
                 ticket.LocationSlide = null;
+                ticket.Price = _context.Halls.FirstOrDefault(h => h.HallId == ticket.LocationHall).HallPrice;
             }
 
             byte errCheck = 0;

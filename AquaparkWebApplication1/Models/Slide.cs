@@ -37,6 +37,10 @@ public partial class Slide
     [Display(Name ="Назва гірки")]
     [StringLength(50, ErrorMessage = "Довжина назви до 50 символів")]
     public string? SlideName { get; set; }
+    
+    [Display(Name = "Ціна")]
+    //[Range(10, 500, ErrorMessage = "Припустима вартість квитків від 10 до 500 грн")]
+    public decimal SlidePrice { get; set; }
 
     public virtual ICollection<Ticket> Tickets { get; } = new List<Ticket>();
 }

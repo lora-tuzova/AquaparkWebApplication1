@@ -72,6 +72,7 @@ namespace AquaparkWebApplication1.Controllers
             if (hall == null || pool.PoolDepth < hall.PoolsMinDepth || pool.PoolDepth > hall.PoolsMaxDepth)
             {
                 ViewBag.ErrorString += "Глибина басейна виходить за обмеження глибини цього хола ("+hall.PoolsMaxDepth+"-"+hall.PoolsMinDepth+").";
+                ViewBag.HallId = pool.Hall;
                 return View(pool);
             }
             if (ModelState.IsValid)

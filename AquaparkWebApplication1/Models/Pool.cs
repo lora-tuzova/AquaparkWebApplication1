@@ -22,9 +22,10 @@ public partial class Pool
     [Range(0, 1, ErrorMessage = "Тип води приймає лише значення 0 (прісна вода) та 1 (солона вода)")]
     public byte WaterType { get; set; }
 
-    [Display(Name = "Номер холу")]
+    [Display(Name = "Номер хола")]
     public byte? Hall { get; set; }
 
+    [Display (Name ="Номер хола")]
     public virtual Hall HallNavigation { get; set; } = null!;
 }
 

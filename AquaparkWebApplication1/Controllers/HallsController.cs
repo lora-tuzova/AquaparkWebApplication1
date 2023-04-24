@@ -50,7 +50,9 @@ namespace AquaparkWebApplication1.Controllers
         {
             List<Hall> list = _context.Halls.ToList();
             int c = list.Count();
-            ViewBag.HallId = list.ElementAt(c - 1).HallId+1;
+            if (c > 0)
+                ViewBag.HallId = list.ElementAt(c - 1).HallId + 1;
+            else ViewBag.HallId = 200;
             return View();
         }
 
@@ -59,7 +61,7 @@ namespace AquaparkWebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HallId,PoolsMaxDepth,PoolsMinDepth,HallMaxPeople")] Hall hall)
+        public async Task<IActionResult> Create([Bind("HallId,PoolsMaxDepth,PoolsMinDepth,HallMaxPeople,HallPrice")] Hall hall)
         {
             
             if (ModelState.IsValid)
@@ -93,7 +95,7 @@ namespace AquaparkWebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(byte id, [Bind("HallId,PoolsMaxDepth,PoolsMinDepth,HallMaxPeople")] Hall hall)
+        public async Task<IActionResult> Edit(byte id, [Bind("HallId,PoolsMaxDepth,PoolsMinDepth,HallMaxPeople,HallPrice")] Hall hall)
         {
             if (id != hall.HallId)
             {

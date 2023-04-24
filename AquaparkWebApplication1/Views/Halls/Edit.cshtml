@@ -1,12 +1,12 @@
 ﻿@model AquaparkWebApplication1.Models.Hall
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редагування локації";
 }
 
-<h1>Edit</h1>
+<h1>Редагувати локацію</h1>
 
-<h4>Hall</h4>
+<h4>Хол</h4>
 <hr />
 <div>@ViewBag.ErrorString</div>
 <br />
@@ -31,14 +31,19 @@
                 <span asp-validation-for="HallMaxPeople" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="HallPrice" class="control-label"></label>
+                <input asp-for="HallPrice" class="form-control" />
+                <span asp-validation-for="HallPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Повернутись до списку холів</a>
 </div>
 
 @section Scripts {

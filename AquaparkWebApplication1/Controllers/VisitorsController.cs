@@ -51,7 +51,9 @@ namespace AquaparkWebApplication1.Controllers
         {
             List<Visitor> list = _context.Visitors.ToList();
             int c = list.Count();
-            ViewBag.VisitorId = list.ElementAt(c - 1).VisitorId + 1;
+            if (c > 0)
+                ViewBag.VisitorId = list.ElementAt(c - 1).VisitorId + 1;
+            else ViewBag.VisitorId = 1;
             return View();
         }
 
@@ -115,6 +117,7 @@ namespace AquaparkWebApplication1.Controllers
                     if (visitor.Status == 0)
                     {
                         var relatedTickets = await _context.Tickets.Where(t => t.TicketOwner == id & t.TicketStatus == 1).ToListAsync();
+                        if (relatedTickets.Any())
                         foreach (var t in relatedTickets)
                         {
                             t.TicketStatus = 0;

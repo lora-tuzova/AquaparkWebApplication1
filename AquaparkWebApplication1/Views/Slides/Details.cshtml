@@ -1,13 +1,13 @@
 ﻿@model AquaparkWebApplication1.Models.Slide
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Деталі";
 }
 
-<h1>Details</h1>
+<h1>Детальна інформація про локацію</h1>
 
 <div>
-    <h4>Slide</h4>
+    <h4>Гірка</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -52,9 +52,15 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SlideName)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SlidePrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SlidePrice)
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.SlideId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.SlideId">Редагувати гірку</a> |
+    <a asp-action="Index">Повернутись до списку горок</a>
 </div>

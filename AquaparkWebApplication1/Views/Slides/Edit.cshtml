@@ -1,12 +1,12 @@
 ﻿@model AquaparkWebApplication1.Models.Slide
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редагування локації";
 }
 
-<h1>Edit</h1>
+<h1>Редагувати локацію</h1>
 
-<h4>Slide</h4>
+<h4>Гірка</h4>
 <hr />
 <div>@ViewBag.ErrorString</div>
 <br />
@@ -51,14 +51,19 @@
                 <span asp-validation-for="SlideName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="SlidePrice" class="control-label"></label>
+                <input asp-for="SlidePrice" class="form-control" />
+                <span asp-validation-for="SlidePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Повернутись до списку горок</a>
 </div>
 
 @section Scripts {

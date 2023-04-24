@@ -1,13 +1,13 @@
 ﻿@model AquaparkWebApplication1.Models.Pool
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Деталі";
 }
 
-<h1>Details</h1>
+<h1>Детальна інформація про локацію</h1>
 
 <div>
-    <h4>Pool</h4>
+    <h4>Басейн</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -37,6 +37,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.PoolId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.PoolId">Редагувати басейн</a> |
+    <a asp-action="Index" asp-route-id="@Model?.Hall">Повернутись до списку холів</a>
 </div>

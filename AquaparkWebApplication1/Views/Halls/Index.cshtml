@@ -4,10 +4,10 @@
     ViewData["Title"] = "Холи із басейнами";
 }
 
-<h1>Index</h1>
+<h1>Наявні холи:</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Додати новий хол</a>
 </p>
 <table class="table">
     <thead>
@@ -24,7 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.HallMaxPeople)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.HallPrice)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -43,12 +45,15 @@
                 @Html.DisplayFor(modelItem => item.HallMaxPeople)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.HallId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.HallId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.HallId">Delete</a>
+                @Html.DisplayFor(modelItem => item.HallPrice)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.HallId">Редагувати</a> |
+                <a asp-action="Details" asp-route-id="@item.HallId">Деталі</a> |
+                <a asp-action="Delete" asp-route-id="@item.HallId">Видалити</a>
             </td>
         </tr>
 }
-        <a asp-controller="Home" asp-action="Index">Home page</a>
+        <a asp-controller="Home" asp-action="Index">Головна сторінка</a>
     </tbody>
 </table>

@@ -1,12 +1,10 @@
 ﻿@model AquaparkWebApplication1.Models.Pool
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Створення басейну";
 }
 
-<h1>Adding a pool to hall @ViewBag.HallId</h1>
-
-<h4>Pool</h4>
+<h1>Додавання басейну до хола №@ViewBag.HallId</h1>
 <hr />
 <div>@ViewBag.ErrorString</div>
 <div class="row">
@@ -37,14 +35,14 @@
             <input type="hidden" value="@ViewBag.HallId" name="Hall" />
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Додати" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index" asp-controller="Halls">Back to List</a>
+    <a asp-action="Index" asp-controller="Halls">Повернутись до списку холів</a>
 </div>
 
 @section Scripts {

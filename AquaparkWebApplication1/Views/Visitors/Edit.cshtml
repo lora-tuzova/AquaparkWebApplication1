@@ -1,12 +1,10 @@
 ﻿@model AquaparkWebApplication1.Models.Visitor
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редагування відвідувача";
 }
 
-<h1>Edit</h1>
-
-<h4>Visitor</h4>
+<h1>Редагувати відвідувача</h1>
 <hr />
 <div>@ViewBag.ErrorString</div>
 <br />
@@ -41,14 +39,14 @@
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="ЗберегтиІ" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Повернутись до списку відвідувачів</a>
 </div>
 
 @section Scripts {
