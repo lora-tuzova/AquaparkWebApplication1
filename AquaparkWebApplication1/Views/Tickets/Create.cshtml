@@ -20,15 +20,15 @@
             <input type="hidden" value="@ViewBag.TicketId" asp-for="TicketId" />
             <div class="form-group">
                 <label asp-for="LocationHall" class="control-label"></label>
-                <select asp-for="LocationHall" class="form-control" asp-items="ViewBag.LocationHall"></select>
+                <select asp-for="LocationHall" class="form-control" asp-items="ViewBag.LocationHall" id="hallSelector"></select>
             </div>
             <div class="form-group">
                 <label asp-for="LocationSlide" class="control-label"></label>
-                <select asp-for="LocationSlide" class="form-control" asp-items="ViewBag.LocationSlide"></select>
+                <select asp-for="LocationSlide" class="form-control" asp-items="ViewBag.LocationSlide" id="slideSelector"></select>
             </div>
             <div class="form-group">
                 <label asp-for="LocationType" class="control-label"></label>
-                <select asp-for="LocationType" class ="form-control" asp-items="ViewBag.LocationType"></select>
+                <select asp-for="LocationType" class ="form-control" asp-items="ViewBag.LocationType" id="typeSelector"></select>
             </div>
             <div class="form-group">
                 <label asp-for="TicketOwner" class="control-label"></label>
@@ -52,4 +52,22 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+
+        $('#typeSelector').focusout(function () {
+            if ($('#typeSelector').val() == 'hall') {
+                $('#slideSelector').attr('disabled', true);
+                $('#hallSelector').attr('disabled', false);
+            }
+        });
+
+        
+        $('#typeSelector').focusout(function () {
+            if ($('#typeSelector').val() == 'slide') {
+                $('#hallSelector').attr('disabled', true);
+                $('#slideSelector').attr('disabled', false);
+            }
+        });
+
+    </script>
 }

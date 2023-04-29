@@ -34,10 +34,10 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TicketOwner)
+            Власник
         </dt>
         <dd class = "col-sm-10">
-            <a asp-controller="Visitors" asp-action="Details" asp-route-id="@Model?.TicketOwner">@Html.DisplayFor(model => model.TicketOwner)</a>
+            <a asp-controller="Visitors" asp-action="Details" asp-route-id="@Model?.TicketOwner">@Html.DisplayFor(model => model.TicketOwnerNavigation.Name)</a>
         </dd>
     </dl>
 </div>

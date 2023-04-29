@@ -17,11 +17,11 @@ public partial class Visitor
     [Display(Name = "Дата народження")]
     public DateTime BirthDate { get; set; }
 
-    [Display(Name = "Зріст")]
+    [Display(Name = "Зріст, см")]
     [Range(100,200, ErrorMessage = "Зріст від 1 до 2м")]
     public byte Height { get; set; }
 
-    [Display(Name = "Вага")]
+    [Display(Name = "Вага, кг")]
     [Range(0,256, ErrorMessage = "Вага від 0 до 256кг")]
     public byte Weight { get; set; }
 

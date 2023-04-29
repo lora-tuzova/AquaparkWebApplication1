@@ -143,7 +143,7 @@ namespace AquaparkWebApplication1.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.ErrorString = "";
             return View(slide);
         }
 
@@ -159,17 +159,23 @@ namespace AquaparkWebApplication1.Controllers
             var slide = await _context.Slides.FindAsync(id);
             if (slide != null)
             {
-                var relatedTickets = await _context.Tickets.Where(t => t.LocationSlide == id).ToListAsync();
-                int tId;
-                Ticket ticket;
-                while (relatedTickets.Any())
+                var visitors = _context.Tickets.Where(t => t.TicketStatus == 1 && t.LocationSlide == slide.SlideId).ToList();
+                if (visitors.Any())
                 {
-                    tId = relatedTickets.FirstOrDefault().TicketId;
-                    ticket = _context.Tickets.FirstOrDefault(t => t.TicketId == tId);
-                    _context.Tickets.FirstOrDefault(_ => _.TicketId == tId).TicketStatus = 0;
-                    relatedTickets.Remove(ticket);
+                    ViewBag.ErrorString += "Заборонено видаляти гірки за наявності відвідувачів. ";
+                    return View(slide);
                 }
-                _context.Slides.Remove(slide);
+                //var relatedTickets = await _context.Tickets.Where(t => t.LocationSlide == id).ToListAsync();
+                //int tId;
+                //Ticket ticket;
+                //while (relatedTickets.Any())
+                //{
+                //    tId = relatedTickets.FirstOrDefault().TicketId;
+                //    ticket = _context.Tickets.FirstOrDefault(t => t.TicketId == tId);
+                //    _context.Tickets.FirstOrDefault(_ => _.TicketId == tId).TicketStatus = 0;
+                //    relatedTickets.Remove(ticket);
+                //}
+                //_context.Slides.Remove(slide);
             }
             
             await _context.SaveChangesAsync();

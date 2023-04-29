@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.TicketOwner)
             </th>
             <th>
-                Owner's name
+                Ім'я власника
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
@@ -70,7 +70,7 @@
             </td>*@
             
             <td>
-                <a asp-action="Edit" asp-route-id="@item.TicketId">Редагувати</a> |
+                @*<a asp-action="Edit" asp-route-id="@item.TicketId">Редагувати</a> |*@
                 <a asp-action="Details" asp-route-id="@item.TicketId">Деталі</a> |
                 <a asp-action="Delete" asp-route-id="@item.TicketId">Видалити</a>
             </td>

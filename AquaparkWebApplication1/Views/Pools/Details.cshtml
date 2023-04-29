@@ -38,5 +38,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.PoolId">Редагувати басейн</a> |
-    <a asp-action="Index" asp-route-id="@Model?.Hall">Повернутись до списку холів</a>
+    <a asp-controller="Halls" asp-action="Details" asp-route-id="@Model?.Hall">Повернутись до басейнів холу №@Html.DisplayFor(model => model.Hall)</a>
 </div>

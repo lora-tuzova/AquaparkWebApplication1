@@ -26,7 +26,7 @@ public partial class Ticket
     [Display(Name = "Статус використання")]
     public byte TicketStatus { get; set; }
 
-    [Display(Name = "Вартість")]
+    [Display(Name = "Вартість, грн")]
     //[Range(10, 500, ErrorMessage = "Припустима вартість квитків від 10 до 500 грн")]
     public decimal Price { get; set; }
 
