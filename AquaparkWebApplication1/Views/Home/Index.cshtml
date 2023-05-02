@@ -5,8 +5,77 @@
 
 <div class="text-left">
     <h3 class="display-4">Вітаємо у нашому аквапарку!</h3>
-    <a asp-controller="Tickets" asp-action="Index">Квитки</a><br><br>
+    @*<a asp-controller="Tickets" asp-action="Index">Квитки</a><br><br>
     <a asp-controller="Slides" asp-action="Index">Гірки</a><br><br>
     <a asp-controller="Halls" asp-action="Index">Холи</a><br><br>
-    <a asp-controller="Visitors" asp-action="Index">Відвідувачі</a><br><br>
+    <a asp-controller="Visitors" asp-action="Index">Відвідувачі</a><br><br>*@
 </div>
+<div class="card mb-3">
+    <h3 class="card-header">Навантаження на різні атракціони</h3>
+
+    <div class="card-body">
+        <p class="card-text">Порівняйте кількість відвідувачів на локаціях аквапарку "Webs of Water" за допомогою зручної діаграми.</p>
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div id="chart1"></div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <h3 class="card-header">Цінник</h3>
+
+    <div class="card-body">
+        <p class="card-text">Передивіться ціни на різні атракціони аквапарку та оберіть саме свій.</p>
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div id="chart2"></div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            $.get('/api/Chart/JsonData', function(JsonData) {
+                data = google.visualization.arrayToDataTable(JsonData, false);
+                var option = {
+                    title: "Частка відвідувачів на різних локаціях",
+                    width: 500,
+                    height: 400
+                };
+                chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                chart.draw(data, option);
+            })
+        }
+    </script>
+
+    <script type "text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            $.get('/api/Chart/JsonData1', function (JsonData1) {
+                data = google.visualization.arrayToDataTable(JsonData1, false);
+                var option = {
+                    title: "Співвідношення цін на квитки",
+                    width: 500,
+                    height: 400
+                };
+                chart = new google.visualization.Histogram(document.getElementById('chart2'));
+                chart.draw(data, option);
+            })
+        }
+    </script>
+}
+
+
